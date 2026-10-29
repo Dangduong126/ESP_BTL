@@ -61,6 +61,8 @@ void handleData()
     server.send(200, "application/json", json);
 }
 
+
+//Ham bat led
 void handleLedOn()
 {
     Serial2.println("LED_ON");
@@ -69,6 +71,8 @@ void handleLedOn()
     server.send(200, "text/plain", "LED ON");
 }
 
+
+//Ham tat led
 void handleLedOff()
 {
     Serial2.println("LED_OFF");
