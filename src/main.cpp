@@ -89,6 +89,9 @@ const char index_html[] PROGMEM = R"rawliteral(
     <meta name='viewport' content='width=device-width, initial-scale=1'>
     <title>BTL_VXL</title>
     <style>
+        * {
+            box-sizing: border-box;
+        }
         body {
             font-family: Arial, sans-serif;
             text-align: center;
@@ -97,18 +100,48 @@ const char index_html[] PROGMEM = R"rawliteral(
             background-color: #f4f6f9;
             color: #333;
         }
-        h1 { color: #2c3e50; margin-bottom: 20px; }
+        h1 {
+            color: #2c3e50;
+            margin-bottom: 25px;
+            font-size: 26px;
+        }
+        .container {
+            display: flex;
+            justify-content: center;
+            align-items: stretch;
+            gap: 20px;
+            max-width: 780px;
+            margin: 0 auto;
+            flex-wrap: wrap;
+        }
         .card {
             background: #ffffff;
-            max-width: 420px;
-            margin: 0 auto;
+            flex: 1 1 320px;
+            max-width: 380px;
             padding: 25px 20px;
-            border-radius: 15px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+            border-radius: 16px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.07);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
         }
-        h2 { font-size: 18px; color: #555; margin-bottom: 15px; }
+        h2 {
+            font-size: 18px;
+            color: #334155;
+            margin-top: 0;
+            margin-bottom: 18px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #f1f5f9;
+        }
 
         /* Khung công tắc gạt */
+        .switch-box {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
         .switch-container {
             display: flex;
             align-items: center;
@@ -119,7 +152,7 @@ const char index_html[] PROGMEM = R"rawliteral(
         .switch {
             position: relative;
             display: inline-block;
-            width: 64px;
+            width: 66px;
             height: 36px;
         }
         .switch input {
@@ -151,65 +184,76 @@ const char index_html[] PROGMEM = R"rawliteral(
             background-color: #22c55e;
         }
         input:checked + .slider:before {
-            transform: translateX(28px);
+            transform: translateX(30px);
         }
         #ledStatus {
             font-weight: bold;
-            font-size: 18px;
+            font-size: 19px;
             color: #64748b;
-            min-width: 50px;
+            min-width: 55px;
             text-align: left;
         }
-
-        hr {
-            border: 0;
-            border-top: 1px solid #e2e8f0;
-            margin: 25px 0 20px;
+        .switch-note {
+            color: #94a3b8;
+            font-size: 13px;
+            margin: 0;
         }
 
+        /* Dòng thông số cảm biến */
         .sensor-row {
             display: flex;
             justify-content: space-between;
-            padding: 10px 15px;
-            margin: 8px 0;
+            align-items: center;
+            padding: 12px 16px;
+            margin: 10px 0;
             background: #f8fafc;
-            border-radius: 10px;
+            border-radius: 12px;
             font-size: 16px;
+            border: 1px solid #f1f5f9;
         }
         .sensor-val {
             font-weight: bold;
             color: #2563eb;
+            font-size: 17px;
         }
     </style>
 </head>
 
 <body>
-    <div class="card">
-        <h1>🏠 SMART HOME ☀️</h1>
+    <h1>HOME: ROOM 1</h1>
 
-        <h2>Điều khiển LED</h2>
-        <div class="switch-container">
-            <label class="switch">
-                <input type="checkbox" id="ledToggle" onchange="toggleLED(this)">
-                <span class="slider"></span>
-            </label>
-            <span id="ledStatus">TẮT</span>
+    <div class="container">
+        <!-- Khung bên trái: Thông số cảm biến -->
+        <div class="card">
+            <h2>Dữ Liệu Cảm Biến</h2>
+            <div>
+                <div class="sensor-row">
+                    <span>🌡️ Nhiệt độ:</span>
+                    <span><span id="temp" class="sensor-val">--</span> &deg;C</span>
+                </div>
+                <div class="sensor-row">
+                    <span>💧 Độ ẩm:</span>
+                    <span><span id="hum" class="sensor-val">--</span> %</span>
+                </div>
+                <div class="sensor-row">
+                    <span>⚠️ GAS:</span>
+                    <span><span id="gas" class="sensor-val">--</span> ppm</span>
+                </div>
+            </div>
         </div>
 
-        <hr>
-
-        <h2>Thông số cảm biến</h2>
-        <div class="sensor-row">
-            <span>🌡️ Nhiệt độ:</span>
-            <span><span id="temp" class="sensor-val">--</span> &deg;C</span>
-        </div>
-        <div class="sensor-row">
-            <span>💧 Độ ẩm:</span>
-            <span><span id="hum" class="sensor-val">--</span> %</span>
-        </div>
-        <div class="sensor-row">
-            <span>⚠️ Gas:</span>
-            <span><span id="gas" class="sensor-val">--</span></span>
+        <!-- Khung bên phải: Điều khiển LED -->
+        <div class="card">
+            <h2>Điều khiển LED</h2>
+            <div class="switch-box">
+                <div class="switch-container">
+                    <label class="switch">
+                        <input type="checkbox" id="ledToggle" onchange="toggleLED(this)">
+                        <span class="slider"></span>
+                    </label>
+                    <span id="ledStatus">TẮT</span>
+                </div>
+            </div>
         </div>
     </div>
 
