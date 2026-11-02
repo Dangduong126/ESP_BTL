@@ -66,6 +66,7 @@ void handleData()
 void handleLedOn()
 {
     Serial2.println("LED_ON");
+    Serial.println("Nhan lenh BAT LED");
     ledStatus = "ON";
 
     server.send(200, "text/plain", "LED ON");
@@ -76,6 +77,7 @@ void handleLedOn()
 void handleLedOff()
 {
     Serial2.println("LED_OFF");
+    Serial.println("Nhan lenh TAT LED");
     ledStatus = "OFF";
 
     server.send(200, "text/plain", "LED OFF");
